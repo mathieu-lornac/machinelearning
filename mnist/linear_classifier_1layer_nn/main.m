@@ -22,8 +22,8 @@ Xtrain = Xtrain(1 : size(Xtrain, 1) - validationSetSize, :);
 ytrain = ytrain(1 : size(ytrain, 1) - validationSetSize);
 
 %% Reducing train data
-Xtrain = Xtrain(1:200, :);
-ytrain = ytrain(1:200);
+## Xtrain = Xtrain(1:200, :);
+## ytrain = ytrain(1:200);
 
 ## printf("4th element is labelled: %d\n", y(4))
 ## printf("It's features have the value\n")
@@ -59,17 +59,16 @@ modelPredTest= [];
 modelPredValid=[];
 
 % Iteration with different lambdas
-for lambda = [0.001,0.003,0.01]%%,0.03,0.1,0.3,0.6,1]
-  printf("Testing with lambda value: %d", lambda)
+for lambda = [0.001,0.003,0.01,0.03,0.1,0.3,0.6,1]
+  printf("Testing with lambda value: %d\n", lambda)
   testCost = 0;
   validCost = 0;
 
   %% Loading from the disk this network params
-  if exist(sprintf("./params/lambda.%d.mat", lambda), "file")
+  if exist(sprintf("./params/lambda.%d_hlsize.%d.mat", lambda, hiddenLayerSize), "file")
 	load("-binary", sprintf("./params/lambda.%d.mat", lambda))
 	sprintf("Weigh file found on disk for lambda %d\n", lambda)
 	sprintf("Read val for iterations: ")
-	iterations
   else
 	sprintf("No file for lambda %d\n", lambda)
 	NewTheta = Theta;
@@ -77,7 +76,6 @@ for lambda = [0.001,0.003,0.01]%%,0.03,0.1,0.3,0.6,1]
 	validations=[0];
 	iterations=[0];
   end
-
 
   easyCostFunction = @(p) costFunction(p, inputLayerSize, hiddenLayerSize,
 										 outputLayerSize, Xtrain, ytrain, lambda);
@@ -111,12 +109,12 @@ for lambda = [0.001,0.003,0.01]%%,0.03,0.1,0.3,0.6,1]
   validCosts = [validCosts; validCost];
   modelPredTest = [modelPredTest; iterSuccess];
   modelPredValid = [modelPredValid; iterValidSuccess];
-  modelIterations = iterations(size(iterations))(1)
+  modelIterations = iterations(size(iterations))(1);
   lambdas = [lambdas; lambda];
 
   %% Backup to disk of this network params
-  save("-binary", sprintf("./params/lambda.%d.mat", lambda), "NewTheta", "iterations",
-	   "predictions", "validations")
+  save("-binary", sprintf("./params/lambda.%d_hlsize.%d.mat", lambda, hiddenLayerSize), "NewTheta", "iterations",
+	   "predictions", "validations");
 end
 myPlots.cost(lambdas, testCosts,  validCosts, modelIterations, modelPredTest, modelPredValid)
 pause
