@@ -1,6 +1,8 @@
-# Playing with the MNIST Database
+# MNIST
 
-Data can be found here:
+Playing with the MNIST Database
+
+Original data can be found here on Yann Lecun website:
   http://yann.lecun.com/exdb/mnist/index.html
 
 Data consists in 4 files:
@@ -11,4 +13,8 @@ Data consists in 4 files:
 * t10k-labels-idx1-ubyte.gz:   test set labels (4542 bytes)
 
 
-The files have been downloaded then decompressed using gunzip
+Files have been downloaded then decompressed in the folder mnist/data using gunzip
+
+## MNIST/linear_classifier_1layer_nn
+
+Direct application of AndrewNG coursera course on machine learning
