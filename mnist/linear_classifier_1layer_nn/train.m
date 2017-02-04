@@ -16,8 +16,8 @@ outputLayerSize = 10
 
 
 %% Reducing train data
-Xtrain = Xtrain(9000:10000, :);
-ytrain = ytrain(9000:10000);
+% Xtrain = Xtrain(9000:10000, :);
+% ytrain = ytrain(9000:10000);
 
 ## printf("4th element is labelled: %d\n", y(4))
 ## printf("It's features have the value\n")
@@ -27,12 +27,13 @@ ytrain = ytrain(9000:10000);
 
 %% Training of the NN with the data
 %% TODO does not work with fminunc but should. See why
-iterLoops = 3;
+iterLoops = 100;
 options = optimset('GradObj', 'on', 'MaxIter', iterLoops);
 
+lambda = str2num(argv(){1})
 
 % Iteration with different lambdas
-for lambda = [0.001,0.003,0.01,0.03,0.1,0.3,0.6,1]
+for i = [1] %%lambda = [0.001,0.003,0.01,0.03,0.1,0.3] %%,0.6,1]
   printf("Testing with lambda value: %d\n", lambda)
   testCost = 0;
   validCost = 0;
