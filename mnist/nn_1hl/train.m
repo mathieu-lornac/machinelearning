@@ -5,8 +5,10 @@ clear; close all; clc
 
 %% Algorithm global variables
 inputLayerSize = 784
-hiddenLayerSize = 500
+hiddenLayerSize = str2num(argv(){1})
 outputLayerSize = 10
+%% Regularization param
+lambdaArg= str2num(argv(){2})
 
 %% Data loading
 [Xtrain, ytrain, Xvalid, yvalid, Xtest, ytest] = loadData("../data/train-images-idx3-ubyte",
@@ -30,11 +32,13 @@ outputLayerSize = 10
 iterLoops = 100;
 options = optimset('GradObj', 'on', 'MaxIter', iterLoops);
 
-lambda = str2num(argv(){1})
+
+lambdas = [lambdaArg]
+%% lambdas = [0.001,0.003,0.01,0.03,0.1,0.3,0.6,1]
 
 % Iteration with different lambdas
-for i = [1] %%lambda = [0.001,0.003,0.01,0.03,0.1,0.3] %%,0.6,1]
-  printf("Testing with lambda value: %d\n", lambda)
+for lambda = lambdas
+  printf("Training with lambda value: %d\n", lambda)
   testCost = 0;
   validCost = 0;
 
