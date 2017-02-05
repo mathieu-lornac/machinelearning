@@ -31,12 +31,16 @@ function [J, ThetaGrad] = costFunction(nn_params, input_layer_size,...
   %% - log(1 - hx) if y == 0
   J = 0;
   outputLayerSize = size(HX)(2);
+
+  %% Converting y vector to output grid
+  yN = ([1:outputLayerSize] == y);
+
   for i = 1:m
-	yPredict = ((1:outputLayerSize) == y(i))';
-	hx = HX(i, :);
-	s1 = - log(hx) * yPredict;
-	s2 = - log(1 - hx) * (1 - yPredict);
-	J += sum(s1 + s2);
+  	yPredict = ((1:outputLayerSize) == y(i))';
+  	hx = HX(i, :);
+  	s1 = - log(hx) * yPredict;
+  	s2 = - log(1 - hx) * (1 - yPredict);
+  	J += sum(s1 + s2);
   end
   J /= m;
 
@@ -47,27 +51,24 @@ function [J, ThetaGrad] = costFunction(nn_params, input_layer_size,...
   t2 = Theta2(:, 2:size(Theta2, 2));
   J += lambda * (sum(sum((t1 .* t1))) +  sum(sum((t2 .* t2)))) / (2 * m);
 
-
   %% Back propagation
   Delta2 = zeros(size(Theta2));
   Delta1 = zeros(size(Theta1));
 
-  for i = 1:m
-	%% Taking predictions, substraction of the output vector
-	delta3 = HX(i, :)' .- ([1:outputLayerSize] == y(i))';
-	%% Updating Delta2 matrix
-	%% Computing delta on output layer * Activation values of hidden layer
-	%% Evaluation of cell responsabilities in the hidden layer
-	Delta2 = Delta2 + (delta3 * A2(i, :));
+  %% Taking predictions, substraction of the output vector
+  delta3 = HX - yN;
+  %% Updating Delta2 matrix
+  %% Computing delta on output layer * Activation values of hidden layer
+  %% Evaluation of cell responsabilities in the hidden layer
+  Delta2 = delta3' * A2;
+  %% Theta2' * delta3 => incorrect weight shift considering correct activation of cells
+  %% mutltiplied by the derivative term of it's value
+  delta2 = (delta3 * Theta2) .* sigmoidgradient([ones(size(Z2, 1), 1) Z2]);
+  %% Removing bias column
+  delta2 = delta2(:, 2: size(delta2, 2));
+  %% Reporting deltas on layer 1
+  Delta1 = delta2' * X;
 
-	%% Theta2' * delta3 => incorrect weight shift considering correct activation of cells
-	%% mutltiplied by the derivative term of it's value
-	delta2 = (Theta2' * delta3) .* sigmoidgradient([1, Z2(i, :)])';
-	%% Remove bias related terms
-	delta2 = delta2(2:end);
-	%% Reporting deltas on layer 1
-	Delta1 = Delta1 + delta2 * X(i, :);
-  end
   Delta1 = Delta1 ./ m;
   Delta2 = Delta2 ./ m;
 

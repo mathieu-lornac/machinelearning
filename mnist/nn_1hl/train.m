@@ -18,8 +18,8 @@ lambdaArg= str2num(argv(){2})
 
 
 %% Reducing train data
-% Xtrain = Xtrain(9000:10000, :);
-% ytrain = ytrain(9000:10000);
+## Xtrain = Xtrain(6000:10050, :);
+## ytrain = ytrain(6000:10050);
 
 ## printf("4th element is labelled: %d\n", y(4))
 ## printf("It's features have the value\n")
@@ -70,5 +70,5 @@ for lambda = lambdas
   printf("\tSuccess on test set: %d\n", iterSuccess * 100.0)
 
   %% Saving new model
-  model.save(lambda, hiddenLayerSize, NewTheta, predictions, validations, iterations)
+  %%model.save(lambda, hiddenLayerSize, NewTheta, predictions, validations, iterations)
 end
