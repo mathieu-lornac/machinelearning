@@ -15,6 +15,8 @@ Data consists in 4 files:
 
 Files have been downloaded then decompressed in the folder mnist/data using gunzip
 
-## MNIST/linear_classifier_1layer_nn
+## MNIST/nn_1hl
 
 Direct application of AndrewNG coursera course on machine learning
+
+Neural network with 1 hidden layer application with Octave

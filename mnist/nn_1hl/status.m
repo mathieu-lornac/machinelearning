@@ -6,7 +6,7 @@ clear; close all; clc
 
 %% Algorithm global variables
 inputLayerSize = 784
-hiddenLayerSize = 500
+hiddenLayerSize = str2num(argv(){1})
 outputLayerSize = 10
 
 testCosts=[];
@@ -33,7 +33,7 @@ for lambda = lambdas
   testCost = 0;
   validCost = 0;
 
-  [NewTheta, predictions, validations, iterations] = model.load(inputLayerSize, hiddenLayerSize, outputLayerSize, lambda, 1);
+  [NewTheta, predictions, validations, iterations] = model.load(inputLayerSize, hiddenLayerSize, outputLayerSize, lambda, 0);
 
 
   allIterations = [allIterations; resize(iterations, trainingDataLen, 1)'];

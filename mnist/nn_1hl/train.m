@@ -70,5 +70,5 @@ for lambda = lambdas
   printf("\tSuccess on test set: %d\n", iterSuccess * 100.0)
 
   %% Saving new model
-  %%model.save(lambda, hiddenLayerSize, NewTheta, predictions, validations, iterations)
+  model.save(lambda, hiddenLayerSize, NewTheta, predictions, validations, iterations)
 end
